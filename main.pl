@@ -3,11 +3,16 @@
 main() :-
     read_lines2(L, 9),
     transform_input(L, Cube),
-    print_cube(Cube),
-    writeln("===="),
-    rotate_3_up(RotatedCube, Cube),
-    print_cube(RotatedCube).
-    %solve(Cube).
+    % print_cube(Cube),
+    % writeln("======"),
+
+    % rotate_top_cwise(RotatedCube, Cube),
+    % print_cube(RotatedCube),
+    % writeln("======"),
+
+    % rotate_right_cwise(AgainRotatedCube, RotatedCube),
+    % print_cube(AgainRotatedCube).
+    solve(Cube).
 
 read_lines2([],0).
 read_lines2(Ls,N) :-
@@ -72,23 +77,23 @@ solve(Cube) :- is_solved_cube(Cube).
 
 solve(Cube) :- assert(visited(Cube)), rotate(Cube, RotatedCube), \+ visited(RotatedCube), solve(RotatedCube), print_cube(RotatedCube).
 
-rotate(Cube, RotatedCube) :- rotate_1_up(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_2_up(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_3_up(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_1_up(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_2_up(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_3_up(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- RotatedCube = Cube.
 
-rotate(Cube, RotatedCube) :- rotate_1_right(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_2_right(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_3_right(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_1_right(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_2_right(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_3_right(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_front_cwise(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_right_cwise(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_back_ccwise(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_left_ccwise(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_down_cwise(Cube, RotatedCube).
 
-/* Rotations are taken from look at top side */
-% Rotate up first column 
-rotate_1_up(
+rotate(Cube, RotatedCube) :- rotate_top_cwise(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_front_cwise(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_right_cwise(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_back_ccwise(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_left_ccwise(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_down_cwise(RotatedCube, Cube).
+
+rotate_top_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -98,16 +103,17 @@ rotate_1_up(
         [D1, D2, D3, D4, D5, D6, D7, D8, D9]
     ],
     [
-        [F1, T2, T3, F4, T5, T6, F7, T8, T9],
-        [D1, F2, F3, D4, F5, F6, D7, F8, F9],
-        [R1, R2, R3, R4, R5, R6, R7, R8, R9],
-        [B1, B2, T7, B4, B5, T4, B7, B8, T1],
-        [L3, L6, L9, L2, L5, L8, L1, L4, L7],
-        [B9, D2, D3, B6, D5, D6, B3, D8, D9]
+        [T7, T4, T1, T8, T5, T2, T9, T6, T3],
+        [R1, R2, R3, F4, F5, F6, F7, F8, F9],
+        [B1, B2, B3, R4, R5, R6, R7, R8, R9],
+        [L1, L2, L3, B4, B5, B6, B7, B8, B9],
+        [F1, F2, F3, L4, L5, L6, L7, L8, L9],
+        [D1, D2, D3, D4, D5, D6, D7, D8, D9]
     ]
 ).
-% Rotate up second column
-rotate_2_up(
+
+% Rotate right third column 
+rotate_front_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -117,17 +123,17 @@ rotate_2_up(
         [D1, D2, D3, D4, D5, D6, D7, D8, D9]
     ],
     [
-        [T1, F2, T3, T4, F5, T6, T7, F8, T9],
-        [F1, D2, F3, F4, D5, F6, F7, D8, F9],
-        [R1, R2, R3, R4, R5, R6, R7, R8, R9],
-        [B1, T8, B3, B4, T5, B6, B7, T2, B9],
-        [L1, L2, L3, L4, L5, L6, L7, L8, L9],
-        [D1, B8, D3, D4, B5, D6, D7, B2, D9]
+        [T1, T2, T3, T4, T5, T6, L9, L6, L3],
+        [F7, F4, F1, F8, F5, F2, F9, F6, F3],
+        [T7, R2, R3, T8, R5, R6, T9, R8, R9],
+        [B1, B2, B3, B4, B5, B6, B7, B8, B9],
+        [L1, L2, D1, L4, L5, D2, L7, L8, D3],
+        [R7, R4, R1, D4, D5, D6, D7, D8, D9]
     ]
 ).
 
-% Rotate up third column 
-rotate_3_up(
+% Rotate right face clockwise
+rotate_right_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -146,8 +152,8 @@ rotate_3_up(
     ]
 ).
 
-% Rotate first second column 
-rotate_1_right(
+% Rotate back face counter clockwise 
+rotate_back_ccwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -166,8 +172,8 @@ rotate_1_right(
     ]
 ).
 
-% Rotate right second column 
-rotate_2_right(
+% Rotate left face counter clockwise
+rotate_left_ccwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -177,17 +183,16 @@ rotate_2_right(
         [D1, D2, D3, D4, D5, D6, D7, D8, D9]
     ],
     [
-        [T1, T2, T3, L8, L5, L2, T7, T8, T9],
-        [F1, F2, F3, F4, F5, F6, F7, F8, F9],
-        [R1, T4, R3, R4, T5, R6, R7, T6, R9],
-        [B1, B2, B3, B4, B5, B6, B7, B8, B9],
-        [L1, D4, L3, L4, D5, L6, L7, D6, L9],
-        [D1, D2, D3, R8, R5, R2, D7, D8, D9]
+        [F1, T2, T3, F4, T5, T6, F7, T8, T9],
+        [D1, F2, F3, D4, F5, F6, D7, F8, F9],
+        [R1, R2, R3, R4, R5, R6, R7, R8, R9],
+        [B1, B2, T7, B4, B5, T4, B7, B8, T1],
+        [L3, L6, L9, L2, L5, L8, L1, L4, L7],
+        [B9, D2, D3, B6, D5, D6, B3, D8, D9]
     ]
 ).
 
-% Rotate right third column 
-rotate_3_right(
+rotate_down_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
@@ -197,11 +202,11 @@ rotate_3_right(
         [D1, D2, D3, D4, D5, D6, D7, D8, D9]
     ],
     [
-        [T1, T2, T3, T4, T5, T6, L9, L6, L3],
-        [F7, F4, F1, F8, F5, F2, F9, F6, F3],
-        [T7, R2, R3, T8, R5, R6, T9, R8, R9],
-        [B1, B2, B3, B4, B5, B6, B7, B8, B9],
-        [L1, L2, D1, L4, L5, D2, L7, L8, D3],
-        [R7, R4, R1, D4, D5, D6, D7, D8, D9]
+        [T1, T2, T3, T4, T5, T6, T7, T8, T9],
+        [F1, F2, F3, F4, F5, F6, L7, L8, L9],
+        [R1, R2, R3, R4, R5, R6, F7, F8, F9],
+        [B1, B2, B3, B4, B5, B6, R7, R8, R9],
+        [L1, L2, L3, L4, L5, L6, B7, B8, B9],
+        [D7, D4, D1, D8, D5, D2, D9, D6, D3]
     ]
 ).
