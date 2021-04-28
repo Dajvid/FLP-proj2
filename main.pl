@@ -1,8 +1,13 @@
+:- dynamic visited/1.
+
 main() :-
     read_lines2(L, 9),
     transform_input(L, Cube),
-    rotate_3_right(Cube, RotatedCube),
-    writeln(RotatedCube).
+    print_cube(Cube),
+    writeln("===="),
+    rotate_3_up(RotatedCube, Cube),
+    print_cube(RotatedCube).
+    %solve(Cube).
 
 read_lines2([],0).
 read_lines2(Ls,N) :-
@@ -28,6 +33,8 @@ read_line(L,C) :-
         read_line(LL,_), [C|LL] = L
     ).
 
+print_cube(Cube) :- writeln(Cube).
+
 is_solved_cube(
     [
         [T, T, T, T, T, T, T, T, T],
@@ -36,7 +43,7 @@ is_solved_cube(
         [B, B, B, B, B, B, B, B, B],
         [L, L, L, L, L, L, L, L, L],
         [D, D, D, D, D, D, D, D, D]
-    ]    
+    ]
 ).
 
 transform_input(
@@ -61,6 +68,24 @@ transform_input(
     ]
 ).
 
+solve(Cube) :- is_solved_cube(Cube).
+
+solve(Cube) :- assert(visited(Cube)), rotate(Cube, RotatedCube), \+ visited(RotatedCube), solve(RotatedCube), print_cube(RotatedCube).
+
+rotate(Cube, RotatedCube) :- rotate_1_up(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_2_up(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_3_up(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_1_up(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_2_up(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_3_up(RotatedCube, Cube).
+
+rotate(Cube, RotatedCube) :- rotate_1_right(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_2_right(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_3_right(Cube, RotatedCube).
+rotate(Cube, RotatedCube) :- rotate_1_right(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_2_right(RotatedCube, Cube).
+rotate(Cube, RotatedCube) :- rotate_3_right(RotatedCube, Cube).
+
 /* Rotations are taken from look at top side */
 % Rotate up first column 
 rotate_1_up(
@@ -81,10 +106,6 @@ rotate_1_up(
         [B9, D2, D3, B6, D5, D6, B3, D8, D9]
     ]
 ).
-
-% Rotate down first column
-rotate_1_down(Cube, RotatedCube) :- rotate_1_up(RotatedCube, Cube).
-
 % Rotate up second column
 rotate_2_up(
     [
@@ -104,9 +125,6 @@ rotate_2_up(
         [D1, B8, D3, D4, B5, D6, D7, B2, D9]
     ]
 ).
-
-% Rotate down second column 
-rotate_2_down(Cube, RotatedCube) :- rotate_2_up(RotatedCube, Cube).
 
 % Rotate up third column 
 rotate_3_up(
@@ -128,9 +146,6 @@ rotate_3_up(
     ]
 ).
 
-% Rotate down third column 
-rotate_3_down(Cube, RotatedCube) :- rotate_3_up(RotatedCube, Cube).
-
 % Rotate first second column 
 rotate_1_right(
     [
@@ -150,9 +165,6 @@ rotate_1_right(
         [D1, D2, D3, D4, D5, D6, R9, R6, R3]
     ]
 ).
-
-% Rotate left first column 
-rotate_1_left(Cube, RotatedCube) :- rotate_1_right(RotatedCube, Cube).
 
 % Rotate right second column 
 rotate_2_right(
@@ -174,9 +186,6 @@ rotate_2_right(
     ]
 ).
 
-% Rotate left second column 
-rotate_2_left(Cube, RotatedCube) :- rotate_2_right(RotatedCube, Cube).
-
 % Rotate right third column 
 rotate_3_right(
     [
@@ -196,6 +205,3 @@ rotate_3_right(
         [R7, R4, R1, D4, D5, D6, D7, D8, D9]
     ]
 ).
-
-% Rotate left third column 
-rotate_3_left(Cube, RotatedCube) :- rotate_3_right(RotatedCube, Cube).
