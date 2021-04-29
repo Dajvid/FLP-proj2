@@ -1,4 +1,4 @@
-:- dynamic visited/1.
+:- dynamic closed/1, open/1.
 
 main() :-
     read_lines2(L, 9),
@@ -73,11 +73,15 @@ transform_input(
     ]
 ).
 
-solve(Cube) :- is_solved_cube(Cube).
 
-solve(Cube) :- assert(visited(Cube)), rotate(Cube, RotatedCube), \+ visited(RotatedCube), solve(RotatedCube), print_cube(RotatedCube).
+enqueue_states([]).
+enqueue_states([Configuration|T]) :- closed(Configuration), enqueue_states(T).
+enqueue_states([Configuration|T]) :- assertz(open(Configuration)), enqueue_states(T).
 
-rotate(Cube, RotatedCube) :- RotatedCube = Cube.
+
+solve(Cube) :- is_solved_cube(Cube), print_cube(Cube).
+solve(Cube) :- assert(closed(Cube)), findall(RotatedCube, rotate(Cube, RotatedCube), Rotated), enqueue_states(Rotated), open(Next), retract(open(Next)), solve(Next), print_cube(Next).
+
 
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_front_cwise(Cube, RotatedCube).
@@ -85,7 +89,6 @@ rotate(Cube, RotatedCube) :- rotate_right_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_back_ccwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_left_ccwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_down_cwise(Cube, RotatedCube).
-
 rotate(Cube, RotatedCube) :- rotate_top_cwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_front_cwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_right_cwise(RotatedCube, Cube).
