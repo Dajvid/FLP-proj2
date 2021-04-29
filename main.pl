@@ -3,15 +3,6 @@
 main :-
     read_lines2(L, 9),
     transform_input(L, Cube),
-    % print_cube(Cube),
-    % writeln("======"),
-
-    % rotate_top_cwise(RotatedCube, Cube),
-    % print_cube(RotatedCube),
-    % writeln("======"),
-
-    % rotate_right_cwise(AgainRotatedCube, RotatedCube),
-    % print_cube(AgainRotatedCube).
     solve(Cube).
 
 read_lines2([],0).
@@ -89,12 +80,13 @@ rotate(Cube, RotatedCube) :- rotate_right_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_back_ccwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_left_ccwise(RotatedCube, Cube).
 rotate(Cube, RotatedCube) :- rotate_down_cwise(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_top_cwise(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_front_cwise(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_right_cwise(RotatedCube, Cube).
-rotate(Cube, RotatedCube) :- rotate_back_ccwise(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_left_ccwise(Cube, RotatedCube).
-rotate(Cube, RotatedCube) :- rotate_down_cwise(RotatedCube, Cube).
+
+% rotate(Cube, RotatedCube) :- rotate_top_cwise(RotatedCube, Cube).
+% rotate(Cube, RotatedCube) :- rotate_front_cwise(RotatedCube, Cube).
+% rotate(Cube, RotatedCube) :- rotate_right_cwise(RotatedCube, Cube).
+% rotate(Cube, RotatedCube) :- rotate_back_ccwise(Cube, RotatedCube).
+% rotate(Cube, RotatedCube) :- rotate_left_ccwise(Cube, RotatedCube).
+% rotate(Cube, RotatedCube) :- rotate_down_cwise(RotatedCube, Cube).
 
 rotate_top_cwise(
     [
