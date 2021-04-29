@@ -1,6 +1,6 @@
 :- dynamic closed/1, open/1.
 
-main() :-
+main :-
     read_lines2(L, 9),
     transform_input(L, Cube),
     % print_cube(Cube),
