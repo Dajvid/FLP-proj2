@@ -79,9 +79,16 @@ enqueue_states([Configuration|T]) :- closed(Configuration), enqueue_states(T).
 enqueue_states([Configuration|T]) :- assertz(open(Configuration)), enqueue_states(T).
 
 
-solve(Cube) :- is_solved_cube(Cube), print_cube(Cube).
-solve(Cube) :- assert(closed(Cube)), findall(RotatedCube, rotate(Cube, RotatedCube), Rotated), enqueue_states(Rotated), open(Next), retract(open(Next)), solve(Next), print_cube(Next).
+solve(Cube) :- is_solved_cube(Cube), 
+               print_cube(Cube).
 
+solve(Cube) :- assert(closed(Cube)),
+               findall(RotatedCube, rotate(Cube, RotatedCube), Rotated),
+               enqueue_states(Rotated),
+               open(Next),
+               retract(open(Next)),
+               solve(Next),
+               print_cube(Next).
 
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_front_cwise(Cube, RotatedCube).
@@ -96,6 +103,7 @@ rotate(Cube, RotatedCube) :- rotate_back_ccwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_left_ccwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_down_cwise(RotatedCube, Cube).
 
+% correct
 rotate_top_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -115,7 +123,7 @@ rotate_top_cwise(
     ]
 ).
 
-% Rotate right third column 
+% correct
 rotate_front_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -135,6 +143,7 @@ rotate_front_cwise(
     ]
 ).
 
+% correct
 % Rotate right face clockwise
 rotate_right_cwise(
     [
@@ -155,6 +164,7 @@ rotate_right_cwise(
     ]
 ).
 
+% correct
 % Rotate back face counter clockwise 
 rotate_back_ccwise(
     [
@@ -170,11 +180,11 @@ rotate_back_ccwise(
         [F1, F2, F3, F4, F5, F6, F7, F8, F9],
         [R1, R2, T1, R4, R5, T2, R7, R8, T3],
         [B3, B6, B9, B2, B5, B8, B1, B4, B7],
-        [D9, L2, L3, D8, L5, L6, D7, L8, L9],
+        [D7, L2, L3, D8, L5, L6, D9, L8, L9],
         [D1, D2, D3, D4, D5, D6, R9, R6, R3]
     ]
 ).
-
+% correct
 % Rotate left face counter clockwise
 rotate_left_ccwise(
     [
@@ -195,6 +205,7 @@ rotate_left_ccwise(
     ]
 ).
 
+% correct
 rotate_down_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
