@@ -1,5 +1,5 @@
-:- use_module("src/RubicIO.pl").
-:- use_module("src/RubicRotations.pl").
+:- use_module("RubicIO.pl").
+:- use_module("RubicRotations.pl").
 :- dynamic closed/2, open/2.
 
 
