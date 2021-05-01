@@ -1,4 +1,4 @@
-:- module(rubic_rotation, [rotate/2]).
+:- module(rubic_rotation, [rotate/2, solved/1]).
 
 /* Clockwise and counter clockwise rotation of each face. */
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
@@ -137,5 +137,17 @@ rotate_down_cwise(
         [B1, B2, B3, B4, B5, B6, R7, R8, R9],
         [L1, L2, L3, L4, L5, L6, B7, B8, B9],
         [D7, D4, D1, D8, D5, D2, D9, D6, D3]
+    ]
+).
+
+/* Determines if cube is correctly solved or not. */
+solved(
+    [
+        [T, T, T, T, T, T, T, T, T],
+        [F, F, F, F, F, F, F, F, F],
+        [R, R, R, R, R, R, R, R, R],
+        [B, B, B, B, B, B, B, B, B],
+        [L, L, L, L, L, L, L, L, L],
+        [D, D, D, D, D, D, D, D, D]
     ]
 ).
