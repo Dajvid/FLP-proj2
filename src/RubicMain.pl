@@ -46,6 +46,7 @@ solve(Cube, Parent, Path) :- assert(closed(Cube, Parent)),
 
 
 main :-
+    prompt(_, ''),
     parse_cube(Cube),
     solve(Cube, none, Path),
     print_path(Path).
