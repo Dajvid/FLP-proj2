@@ -7,4 +7,5 @@ main :-
     parse_cube(Cube),
     solve_IDS(Cube, Path),
     %solve_BFS(Cube, none, Path),
-    print_path(Path).
+    print_path(Path),
+    halt.
