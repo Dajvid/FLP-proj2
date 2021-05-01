@@ -1,18 +1,11 @@
-:- dynamic closed/1, open/1.
+:- dynamic closed/2, open/2.
 
 main :-
     read_lines2(L, 9),
     transform_input(L, Cube),
-    % print_cube(Cube),
-    % writeln("======"),
-
-    % rotate_top_cwise(RotatedCube, Cube),
-    % print_cube(RotatedCube),
-    % writeln("======"),
-
-    % rotate_right_cwise(AgainRotatedCube, RotatedCube),
-    % print_cube(AgainRotatedCube).
-    solve(Cube).
+    solve(Cube, none, Path),
+    reverse(Path, ReversedPath),
+    print_path(ReversedPath).
 
 read_lines2([],0).
 read_lines2(Ls,N) :-
@@ -34,11 +27,21 @@ read_line(L,C) :-
 	get_char(C),
 	(
         isEOFEOL(C), L = [], !;
-        isWhitespace(C), read_line(LL,_), LL = L;
         read_line(LL,_), [C|LL] = L
     ).
 
-print_cube(Cube) :- writeln(Cube).
+print_line([]).
+print_line([Last]) :- writeln(Last).
+print_line([H|T]) :- write(H), print_line(T).
+
+print_lines([]).
+print_lines([H|T]) :- print_line(H), print_lines(T).
+
+print_cube(Cube) :- transform_input(Output, Cube), print_lines(Output).
+
+print_path([H|[]]) :- print_cube(H).
+
+print_path([H|T]) :- print_cube(H), write("\n"), print_path(T).
 
 is_solved_cube(
     [
@@ -56,9 +59,9 @@ transform_input(
         [T1, T2, T3],
         [T4, T5, T6],
         [T7, T8, T9],
-        [F1, F2, F3, R1, R2, R3, B1, B2, B3, L1, L2, L3],
-        [F4, F5, F6, R4, R5, R6, B4, B5, B6, L4, L5, L6],
-        [F7, F8, F9, R7, R8, R9, B7, B8, B9, L7, L8, L9],
+        [F1, F2, F3, ' ', R1, R2, R3, ' ', B1, B2, B3, ' ', L1, L2, L3],
+        [F4, F5, F6, ' ', R4, R5, R6, ' ', B4, B5, B6, ' ', L4, L5, L6],
+        [F7, F8, F9, ' ', R7, R8, R9, ' ', B7, B8, B9, ' ', L7, L8, L9],
         [D1, D2, D3],
         [D4, D5, D6],
         [D7, D8, D9]
@@ -73,22 +76,26 @@ transform_input(
     ]
 ).
 
+enqueue_states(_, []).
+enqueue_states(Parent, [Configuration|T]) :- closed(Configuration, _), enqueue_states(Parent, T).
+enqueue_states(Parent, [Configuration|T]) :- assertz(open(Parent, Configuration)), enqueue_states(Parent, T).
 
-enqueue_states([]).
-enqueue_states([Configuration|T]) :- closed(Configuration), enqueue_states(T).
-enqueue_states([Configuration|T]) :- assertz(open(Configuration)), enqueue_states(T).
+build_path([CurrentChild], CurrentChild) :- is_solved_cube(CurrentChild), closed(CurrentChild, none).
+build_path([CurrentChild, Parent | Path], CurrentChild) :- is_solved_cube(CurrentChild), closed(CurrentChild, Parent), build_path(Path, Parent).
+build_path([], CurrentChild) :- closed(CurrentChild, none).
+build_path([Parent | Path], CurrentChild) :- closed(CurrentChild, Parent), build_path(Path, Parent).
 
+solve(Cube, Parent, Path) :- is_solved_cube(Cube),
+                             assert(closed(Cube, Parent)),
+                             build_path(Path, Cube).
 
-solve(Cube) :- is_solved_cube(Cube), 
-               print_cube(Cube).
+solve(Cube, Parent, Path) :- assert(closed(Cube, Parent)),
+                             findall(RotatedCube, rotate(Cube, RotatedCube), Rotated),
+                             enqueue_states(Cube, Rotated),
 
-solve(Cube) :- assert(closed(Cube)),
-               findall(RotatedCube, rotate(Cube, RotatedCube), Rotated),
-               enqueue_states(Rotated),
-               open(Next),
-               retract(open(Next)),
-               solve(Next),
-               print_cube(Next).
+                             open(NextParent, Next),
+                             retract(open(NextParent, Next)),
+                             solve(Next, NextParent, Path).
 
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_front_cwise(Cube, RotatedCube).
