@@ -75,7 +75,7 @@ rotate_right_cwise(
 ).
 
 % correct
-% Rotate back face counter clockwise 
+% Rotate back face counter clockwise
 rotate_back_ccwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],

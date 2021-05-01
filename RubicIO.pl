@@ -58,6 +58,6 @@ transform_input(
     ]
 ).
 
-parse_cube(Cube) :- 
+parse_cube(Cube) :-
     read_lines2(L, 9),
     transform_input(L, Cube).
