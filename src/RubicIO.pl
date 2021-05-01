@@ -43,7 +43,7 @@ print_cube(Cube) :- transform_input(Output, Cube), print_lines(Output).
 
 /* Print sequence of rubic's cube states. */
 print_path([H|[]]) :- print_cube(H).
-print_path([H|T]) :- print_cube(H), write("\n"), print_path(T).
+print_path([H|T]) :- print_cube(H), write('\n'), print_path(T).
 
 
 /* Transform lines to internal representation of rubic's cube. */
