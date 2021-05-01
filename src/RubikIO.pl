@@ -5,7 +5,7 @@
  * year: 2021
  */
 
-:- module(rubik_io, [parse_cube/1, print_path/1]).
+:- module(rubik_io, [parse_cube/1, print_path/1, print_cube/1]).
 
 
 /* Read N line from stdin. */
