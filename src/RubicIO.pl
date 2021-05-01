@@ -1,3 +1,10 @@
+/**
+ * Rubic cube solver, FLP logical project.
+ * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
+ * login: xsedla1d
+ * year: 2021
+ */
+
 :- module(rubic_io, [parse_cube/1, print_path/1]).
 
 

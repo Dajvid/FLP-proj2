@@ -1,4 +1,12 @@
+/**
+ * Rubic cube solver, FLP logical project.
+ * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
+ * login: xsedla1d
+ * year: 2021
+ */
+
 :- module(rubic_rotation, [rotate/2, solved/1]).
+
 
 /* Clockwise and counter clockwise rotation of each face. */
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
@@ -139,6 +147,7 @@ rotate_down_cwise(
         [D7, D4, D1, D8, D5, D2, D9, D6, D3]
     ]
 ).
+
 
 /* Determines if cube is correctly solved or not. */
 solved(

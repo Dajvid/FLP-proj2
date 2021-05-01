@@ -1,3 +1,10 @@
+/**
+ * Rubic cube solver, FLP logical project.
+ * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
+ * login: xsedla1d
+ * year: 2021
+ */
+
 :- module(rubic_bfs, [solve_BFS/3]).
 :- use_module('RubicRotations.pl').
 :- dynamic closed/2, open/2.
@@ -16,6 +23,7 @@ build_path([CurrentChild, Parent | Path], CurrentChild) :- solved(CurrentChild),
 build_path([], CurrentChild) :- closed(CurrentChild, none).
 build_path([Parent | Path], CurrentChild) :- closed(CurrentChild, Parent), build_path(Path, Parent).
 
+
 /* Solve rubics cube using BFS. */
 solve_BFS(Cube, Parent, Path) :- solved(Cube),
                                  assert(closed(Cube, Parent)),
@@ -28,4 +36,3 @@ solve_BFS(Cube, Parent, Path) :- assert(closed(Cube, Parent)),
                                  open(NextParent, Next),
                                  retract(open(NextParent, Next)),
                                  solve_BFS(Next, NextParent, Path).
-
