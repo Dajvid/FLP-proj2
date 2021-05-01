@@ -1,5 +1,6 @@
 :- module(rubic_rotation, [rotate/2]).
 
+/* Clockwise and counter clockwise rotation of each face. */
 rotate(Cube, RotatedCube) :- rotate_top_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_front_cwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_right_cwise(Cube, RotatedCube).
@@ -13,7 +14,8 @@ rotate(Cube, RotatedCube) :- rotate_back_ccwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_left_ccwise(Cube, RotatedCube).
 rotate(Cube, RotatedCube) :- rotate_down_cwise(RotatedCube, Cube).
 
-% correct
+
+/* Rotate top face clockwise. */
 rotate_top_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -33,7 +35,8 @@ rotate_top_cwise(
     ]
 ).
 
-% correct
+
+/* Rotate front face clockwise. */
 rotate_front_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -53,8 +56,8 @@ rotate_front_cwise(
     ]
 ).
 
-% correct
-% Rotate right face clockwise
+
+/* Rotate right face clockwise. */
 rotate_right_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -74,8 +77,8 @@ rotate_right_cwise(
     ]
 ).
 
-% correct
-% Rotate back face counter clockwise
+
+/* Rotate back face counter clockwise. */
 rotate_back_ccwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -94,8 +97,9 @@ rotate_back_ccwise(
         [D1, D2, D3, D4, D5, D6, R9, R6, R3]
     ]
 ).
-% correct
-% Rotate left face counter clockwise
+
+
+/* Rotate left face counter clockwise. */
 rotate_left_ccwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],
@@ -115,7 +119,8 @@ rotate_left_ccwise(
     ]
 ).
 
-% correct
+
+/* Rotate down face clockwise. */
 rotate_down_cwise(
     [
         [T1, T2, T3, T4, T5, T6, T7, T8, T9],

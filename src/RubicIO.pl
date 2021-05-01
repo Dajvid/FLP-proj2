@@ -1,5 +1,7 @@
 :- module(rubic_io, [parse_cube/1, print_path/1]).
 
+
+/* Read N line from stdin. */
 read_lines2([],0).
 read_lines2(Ls,N) :-
 	N > 0,
@@ -8,14 +10,14 @@ read_lines2(Ls,N) :-
 	read_lines2(LLs, N1),
 	Ls = [L|LLs].
 
+
+/* Check if C is EOF or EOL character. */
 isEOFEOL(C) :-
 	C == end_of_file;
 	(char_code(C,Code), Code==10).
 
-isWhitespace(C) :-
-    (char_code(C,Code), Code==32);
-    (char_code(C,Code), Code==9).
 
+/* Read one line from input. */
 read_line(L,C) :-
 	get_char(C),
 	(
@@ -23,19 +25,28 @@ read_line(L,C) :-
         read_line(LL,_), [C|LL] = L
     ).
 
+
+/* Print one line of rubic's cube. */
 print_line([]).
 print_line([Last]) :- writeln(Last).
 print_line([H|T]) :- write(H), print_line(T).
 
+
+/* Print all lines of rubic's cube */
 print_lines([]).
 print_lines([H|T]) :- print_line(H), print_lines(T).
 
+
+/* Print rubic's cube. */
 print_cube(Cube) :- transform_input(Output, Cube), print_lines(Output).
 
-print_path([H|[]]) :- print_cube(H).
 
+/* Print sequence of rubic's cube states. */
+print_path([H|[]]) :- print_cube(H).
 print_path([H|T]) :- print_cube(H), write("\n"), print_path(T).
 
+
+/* Transform lines to internal representation of rubic's cube. */
 transform_input(
     [
         [T1, T2, T3],
@@ -58,6 +69,8 @@ transform_input(
     ]
 ).
 
+
+/* Read rubic's cube from stdin. */
 parse_cube(Cube) :-
     read_lines2(L, 9),
     transform_input(L, Cube).
