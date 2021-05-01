@@ -1,11 +1,11 @@
 /**
- * Rubic cube solver, FLP logical project.
+ * Rubik's cube solver, FLP logical project.
  * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
  * login: xsedla1d
  * year: 2021
  */
 
-:- module(rubic_rotation, [rotate/2, solved/1]).
+:- module(rubik_rotation, [rotate/2, solved/1]).
 
 
 /* Clockwise and counter clockwise rotation of each face. */

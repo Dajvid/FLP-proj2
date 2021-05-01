@@ -1,12 +1,12 @@
 /**
- * Rubic cube solver, FLP logical project.
+ * Rubik's cube solver, FLP logical project.
  * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
  * login: xsedla1d
  * year: 2021
  */
 
-:- module(rubic_ids, [solve_IDS/2]).
-:- use_module('RubicRotations.pl').
+:- module(k_ids, [solve_IDS/2]).
+:- use_module('RubikRotations.pl').
 
 
 counter(1).

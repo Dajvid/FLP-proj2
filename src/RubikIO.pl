@@ -1,11 +1,11 @@
 /**
- * Rubic cube solver, FLP logical project.
+ * Rubik's cube solver, FLP logical project.
  * author: David Sedlák <xsedla1d@stud.fit.vutbr.cz>
  * login: xsedla1d
  * year: 2021
  */
 
-:- module(rubic_io, [parse_cube/1, print_path/1]).
+:- module(rubik_io, [parse_cube/1, print_path/1]).
 
 
 /* Read N line from stdin. */
@@ -33,27 +33,27 @@ read_line(L,C) :-
     ).
 
 
-/* Print one line of rubic's cube. */
+/* Print one line of rubik's cube. */
 print_line([]).
 print_line([Last]) :- writeln(Last).
 print_line([H|T]) :- write(H), print_line(T).
 
 
-/* Print all lines of rubic's cube */
+/* Print all lines of rubik's cube */
 print_lines([]).
 print_lines([H|T]) :- print_line(H), print_lines(T).
 
 
-/* Print rubic's cube. */
+/* Print rubik's cube. */
 print_cube(Cube) :- transform_input(Output, Cube), print_lines(Output).
 
 
-/* Print sequence of rubic's cube states. */
+/* Print sequence of rubik's cube states. */
 print_path([H|[]]) :- print_cube(H).
 print_path([H|T]) :- print_cube(H), write('\n'), print_path(T).
 
 
-/* Transform lines to internal representation of rubic's cube. */
+/* Transform lines to internal representation of rubik's cube. */
 transform_input(
     [
         [T1, T2, T3],
@@ -77,7 +77,7 @@ transform_input(
 ).
 
 
-/* Read rubic's cube from stdin. */
+/* Read rubik's cube from stdin. */
 parse_cube(Cube) :-
     read_lines2(L, 9),
     transform_input(L, Cube).
