@@ -8,4 +8,4 @@ clean:
 	rm -f flp20-log scramble flp-log-xsedla1d.zip
 
 zip: clean
-	zip flp-log-xsedla1d.zip Makefile src/ cubes/ README.md
+	zip flp-log-xsedla1d.zip Makefile src/* cubes/* README.md
