@@ -5,7 +5,7 @@
  * year: 2021
  */
 
-% swipl -q -g main -o scramble -c RubikScramble.pl
+% swipl -q -g main -o scramble -c cubes/RubikScramble.pl
 :- use_module('../src/RubikIO.pl').
 :- use_module('../src/RubikRotations.pl').
 
